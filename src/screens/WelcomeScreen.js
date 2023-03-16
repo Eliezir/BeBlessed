@@ -1,16 +1,14 @@
 import React from 'react';
-import { SafeAreaView, View, Image, Dimensions, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
+import { ImageBackground, View, Image, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
 const logoH = require("../assets/img/logoHorizontal.png")
 const blessinho = require("../assets/img/blessinho.png")
 const logo = require("../assets/img/logoIcon.png")
 
-import {FontFamily} from "../util/CommonStyle"
-
-
+const background = require("../assets/img/background1.jpeg")
 
 export default function WelcomeScreen() {
     return (
-        <SafeAreaView style={styles.container}>
+        <ImageBackground source={background} style={styles.container}>
             <StatusBar/>
             <View style={styles.header}><Image style={styles.logo} source={logoH}/></View>
             <View style={styles.bottomContainer}>
@@ -23,7 +21,7 @@ export default function WelcomeScreen() {
             <Text style={[styles.buttonText,{color:"white"}]}>Sign up</Text>
             </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </ImageBackground>
     );
 }
 
@@ -53,7 +51,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
     },
     text:{
-        color:"#c6c6c6"
+        color:"#f4f4f4"
     },
     button:{
         width:"100%",

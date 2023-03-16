@@ -1,38 +1,37 @@
 import React from 'react';
-import { SafeAreaView, View, Image, Text, StyleSheet, TouchableOpacity, StatusBar, TextInput } from 'react-native';
+import { SafeAreaView, View, Image, Text, StyleSheet, ImageBackground, StatusBar, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 const logoH = require("../assets/img/logoHorizontal.png")
 
 
-import {FontFamily} from "../util/CommonStyle"
+import LoginButton from "../components/loginButton"
+import FormInput from "../components/formInput"
+
+import background from "../assets/img/background2.jpeg"
 
 
-
-export default function WelcomeScreen() {
+export default function LoginScreen() {
     return (
-        <SafeAreaView style={styles.container}>
+        <ImageBackground source={background} style={styles.container}>
             <StatusBar/>
             <View style={styles.header}><Icon name="chevron-back-outline" size={30} color="#ffff" /></View>
             <Text style={styles.title}>Bem-Vindo {'\n'}De Volta</Text>
             <View style={styles.bottomContainer}>
             <TextInput style={styles.textInput}   placeholder={"E-mail"}></TextInput>
-            <TextInput style={styles.textInput}   placeholder={"Senha"}></TextInput>
+ {/*            <TextInput style={styles.textInput}   placeholder={"Senha"}></TextInput> */}
+            <FormInput/>
             <Text style={styles.text}>Esqueceu a senha?</Text>
-            <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Log in</Text>
-            </TouchableOpacity>
+            <LoginButton text={"Log in"}  buttonColor={"#695FBA"} textColor={"#ffff"} borderColor={"transparent"}/>
             <View style={{flexDirection: 'row', alignItems: 'center', marginVertical:12.5,}}>
-            <View style={{flex: 1, height: 1.25, backgroundColor: '#b3b0cb'}} />
+            <View style={{flex: 1, height: 1.25, backgroundColor: 'grey'}} />
             <View>
-                <Text style={{width: 50, textAlign: 'center', color:"#b3b0cb"}}>Ou</Text>
+                <Text style={{width: 50, textAlign: 'center', color:"grey"}}>Ou</Text>
             </View>
-            <View style={{flex: 1, height: 1.25, backgroundColor: '#b3b0cb'}} />
+            <View style={{flex: 1, height: 1.25, backgroundColor: 'grey'}} />
             </View>
-            <TouchableOpacity style={[styles.button, {backgroundColor:'transparent', borderColor:"#c6c6c6"}]}>
-            <Text style={[styles.buttonText,{color:"#c6c6c6"}]}>Sign up</Text>
-            </TouchableOpacity>
+            <LoginButton text={"Sign Up"} buttonColor={'transparent'} borderColor={"grey"} textColor={"grey"}/>
             </View>
-        </SafeAreaView>
+        </ImageBackground>
     );
 }
 
