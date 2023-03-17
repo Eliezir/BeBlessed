@@ -8,7 +8,7 @@ import {
 
 import Icon from "react-native-vector-icons/Ionicons";
 const logoH = require("../assets/img/logoHorizontal.png");
-import background from "../assets/img/background4.png";
+import background from "../assets/img/background3.png";
 
 import LoginButton from "../components/loginButton";
 import FormInput from "../components/formInput";
