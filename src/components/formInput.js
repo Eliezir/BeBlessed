@@ -8,7 +8,7 @@ export default function components(props) {
     <View style={styles.icon}>
     <Icon  name={props.icon} size={25} color={props.iconColor}/>
     </View>
-    <TextInput placeholder={props.placeholder} style={styles.input}/>
+    <TextInput placeholder={props.placeholder} style={styles.input} onChangeText={props.setUseState} value={props.useState} />
    </View>
   );
 }

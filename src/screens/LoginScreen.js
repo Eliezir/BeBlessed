@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -16,10 +16,18 @@ import Row from "../components/orRow";
 import ReturnArrow from "../components/ReturnArrow" 
 
 import background from "../assets/img/background2.png";
-
 import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 
+import { useNavigation } from '@react-navigation/native';
+
+import {doLogin} from "../services/AuthServices"
+
+
 export default function LoginScreen() {
+  const navigation = useNavigation();
+
+ const[userEmail, setUserEmail] = useState("");
+ const[userPassword, setUserPassword] = useState("");
   return (
     <KeyboardAvoidingWrapper>
           <ImageBackground source={background} style={styles.container}>
@@ -32,11 +40,15 @@ export default function LoginScreen() {
                 icon={"envelope-o"}
                 iconColor={"grey"}
                 placeholder={"E-mail"}
+                setUseState={setUserEmail}
+                useState={userEmail}
               />
               <FormInput
                 icon={"lock"}
                 iconColor={"grey"}
                 placeholder={"Password"}
+                setUseState={setUserPassword}
+                useState={userPassword}
               />
               <Text style={styles.text}>Esqueceu a senha?</Text>
               <LoginButton
@@ -44,6 +56,7 @@ export default function LoginScreen() {
                 buttonColor={"#734d9d"}
                 textColor={"#ffff"}
                 borderColor={"transparent"}
+                function={()=>doLogin(userEmail, userPassword)}
               />
               <Row />
               <LoginButton

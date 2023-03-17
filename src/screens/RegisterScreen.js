@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import {
   View,
   Text,
@@ -15,10 +15,15 @@ import FormInput from "../components/formInput";
 import Row from "../components/orRow";
 import ReturnArrow from "../components/ReturnArrow" 
 
+import {createUser} from "../services/AuthServices"
+
 import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 
 export default function LoginScreen() {
-  
+  const[userEmail, setUserEmail] = useState("");
+  const[userPassword, setUserPassword] = useState("");
+  const[userName, setUserName] = useState("");
+
   return (
     <KeyboardAvoidingWrapper>
           <ImageBackground source={background} style={styles.container}>
@@ -31,22 +36,29 @@ export default function LoginScreen() {
                  icon={"user-o"}
                  iconColor={"grey"}
                  placeholder={"Nome"}
+                 setUseState={setUserName}
+                 useState={userName}
               />
               <FormInput
                 icon={"envelope-o"}
                 iconColor={"grey"}
                 placeholder={"E-mail"}
+                setUseState={setUserEmail}
+                useState={userEmail}
               />
               <FormInput
                 icon={"lock"}
                 iconColor={"grey"}
                 placeholder={"Senha"}
+                setUseState={setUserPassword}
+                useState={userPassword}
               />
               <LoginButton
                 text={"Sign Up"}
                 buttonColor={"#734d9d"}
                 textColor={"#ffff"}
                 borderColor={"transparent"}
+                function={()=>createUser(userEmail, userPassword)}
               />
               <Row />
               <LoginButton
