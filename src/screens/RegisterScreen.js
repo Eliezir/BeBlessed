@@ -5,29 +5,33 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
+
 import Icon from "react-native-vector-icons/Ionicons";
 const logoH = require("../assets/img/logoHorizontal.png");
-
-
+import background from "../assets/img/background4.png";
 
 import LoginButton from "../components/loginButton";
 import FormInput from "../components/formInput";
 import Row from "../components/orRow";
 import ReturnArrow from "../components/ReturnArrow" 
 
-import background from "../assets/img/background2.png";
-
 import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 
 export default function LoginScreen() {
+  
   return (
     <KeyboardAvoidingWrapper>
           <ImageBackground source={background} style={styles.container}>
             <View style={styles.header}>
             <ReturnArrow navigate={"Welcome"}/>
             </View>
-            <Text style={styles.title}>Bem-Vindo {"\n"}De Volta</Text>
+            <Text style={styles.title}>Faça Seu{"\n"}Cadastro</Text>
             <View style={styles.bottomContainer}>
+                <FormInput
+                 icon={"user-o"}
+                 iconColor={"grey"}
+                 placeholder={"Nome"}
+              />
               <FormInput
                 icon={"envelope-o"}
                 iconColor={"grey"}
@@ -36,22 +40,21 @@ export default function LoginScreen() {
               <FormInput
                 icon={"lock"}
                 iconColor={"grey"}
-                placeholder={"Password"}
+                placeholder={"Senha"}
               />
-              <Text style={styles.text}>Esqueceu a senha?</Text>
               <LoginButton
-                text={"Log in"}
+                text={"Sign Up"}
                 buttonColor={"#734d9d"}
                 textColor={"#ffff"}
                 borderColor={"transparent"}
               />
               <Row />
               <LoginButton
-                text={"Sign Up"}
+                text={"Log in"}
                 buttonColor={"transparent"}
                 borderColor={"grey"}
                 textColor={"grey"}
-                navigate={"Register"}
+                navigate={"Login"}
               />
             </View>
           </ImageBackground>

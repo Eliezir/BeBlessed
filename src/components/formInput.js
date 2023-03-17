@@ -6,7 +6,7 @@ export default function components(props) {
  return (
    <View style={styles.container}>
     <View style={styles.icon}>
-    <Icon  name={props.icon} size={25} color="#c6c6c6"/>
+    <Icon  name={props.icon} size={25} color={props.iconColor}/>
     </View>
     <TextInput placeholder={props.placeholder} style={styles.input}/>
    </View>
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 container:{
     width:"100%",
     height:40,
-    marginVertical:30,
+    marginVertical:15,
     display:'flex',
     flexDirection:"row",
     borderBottomColor:"#c6c6c6",

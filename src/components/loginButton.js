@@ -1,9 +1,13 @@
 import React from 'react';
 import { Text, StyleSheet, TouchableOpacity, } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function LoginButton(props) {
+  const navigation = useNavigation();
+
  return (
-    <TouchableOpacity style={[styles.button, {backgroundColor:props.buttonColor , borderColor:props.borderColor}]}>
+    <TouchableOpacity style={[styles.button, {backgroundColor:props.buttonColor , borderColor:props.borderColor, marginTop:props.marginTop}]} onPress={()=>navigation.navigate(props.navigate)}>
     <Text style={[styles.buttonText,{color:props.textColor}]}>{props.text}</Text>
     </TouchableOpacity>
   );

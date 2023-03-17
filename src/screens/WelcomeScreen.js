@@ -1,25 +1,21 @@
-import React from 'react';
-import { ImageBackground, View, Image, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
-const logoH = require("../assets/img/logoHorizontal.png")
-const blessinho = require("../assets/img/blessinho.png")
-const logo = require("../assets/img/logoIcon.png")
 
-const background = require("../assets/img/background1.jpeg")
+import React from 'react';
+import { ImageBackground, View, Image, Text, StyleSheet } from 'react-native';
+const logoH = require("../assets/img/logoHorizontal.png")
+const background = require("../assets/img/background1.png")
+import LoginButton from '../components/loginButton';
+
 
 export default function WelcomeScreen() {
+
     return (
         <ImageBackground source={background} style={styles.container}>
-            <StatusBar/>
             <View style={styles.header}><Image style={styles.logo} source={logoH}/></View>
             <View style={styles.bottomContainer}>
             <Text style={styles.title}>Be Blessed</Text>
             <Text style={styles.text}>Conheça mais sobre seus amigos e você mesmo, bem vindo ao BeBlessed</Text>
-            <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Log in</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, {backgroundColor:'transparent', borderColor:"white"}]}>
-            <Text style={[styles.buttonText,{color:"white"}]}>Sign up</Text>
-            </TouchableOpacity>
+            <LoginButton marginTop={25} text={"Log in"}  buttonColor={"#ffff"} textColor={"#695FBA"} borderColor={"transparent"} navigate={"Login"}/>
+            <LoginButton marginTop={25} text={"Sign Up"} buttonColor={'transparent'} borderColor={"#ffff"} textColor={"#ffff"} navigate={"Register"}/>
             </View>
         </ImageBackground>
     );
@@ -37,8 +33,8 @@ const styles = StyleSheet.create({
         width:'90%',
     },
     logo:{
-        width:160,
-        height:35,
+        width:120,
+        height:25,
     },
     bottomContainer:{
         position:'absolute',
@@ -53,22 +49,7 @@ const styles = StyleSheet.create({
     text:{
         color:"#f4f4f4"
     },
-    button:{
-        width:"100%",
-        height:45,
-        backgroundColor:"#ffff",
-        borderColor:"transparent",
-        borderWidth:1.5,
-        alignItems:"center",
-        justifyContent:'center',
-        marginTop:25,
-        borderRadius:8,
-    },
-    buttonText:{
-        fontWeight:"bold",
-        fontSize:16,
-        color:"#695FBA"
-    }
-
+  
+ 
   });
   
