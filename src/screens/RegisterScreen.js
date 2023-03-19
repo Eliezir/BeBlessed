@@ -1,103 +1,112 @@
-import React,{useState} from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, SafeAreaView, Dimensions, Image, checkBox } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 import Icon from "react-native-vector-icons/Ionicons";
 const logoH = require("../assets/img/logoHorizontal.png");
-import background from "../assets/img/background3.png";
+
 
 import LoginButton from "../components/loginButton";
 import FormInput from "../components/formInput";
 import Row from "../components/orRow";
-import ReturnArrow from "../components/ReturnArrow" 
+import ReturnArrow from "../components/ReturnArrow";
+import MyInput from "../components/myInput";
 
-import {createUser} from "../services/AuthServices"
+import { createUser } from "../services/AuthServices";
 
 import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 
+const hero = require("../assets/img/blessinho.png");
+
 export default function LoginScreen() {
-  const[userEmail, setUserEmail] = useState("");
-  const[userPassword, setUserPassword] = useState("");
-  const[userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userName, setUserName] = useState("");
+
+  const [overlay, setOverlay] = useState(false);
 
   return (
-    <KeyboardAvoidingWrapper>
-          <ImageBackground source={background} style={styles.container}>
-            <View style={styles.header}>
-            <ReturnArrow navigate={"Welcome"}/>
-            </View>
-            <Text style={styles.title}>Faça Seu{"\n"}Cadastro</Text>
-            <View style={styles.bottomContainer}>
-                <FormInput
-                 icon={"user-o"}
-                 iconColor={"grey"}
-                 placeholder={"Nome"}
-                 setUseState={setUserName}
-                 useState={userName}
-              />
-              <FormInput
-                icon={"envelope-o"}
-                iconColor={"grey"}
-                placeholder={"E-mail"}
-                setUseState={setUserEmail}
-                useState={userEmail}
-              />
-              <FormInput
-                icon={"lock"}
-                iconColor={"grey"}
-                placeholder={"Senha"}
-                setUseState={setUserPassword}
-                useState={userPassword}
-              />
-              <LoginButton
-                text={"Sign Up"}
-                buttonColor={"#734d9d"}
-                textColor={"#ffff"}
-                borderColor={"transparent"}
-                function={()=>createUser(userEmail, userPassword)}
-              />
-              <Row />
-              <LoginButton
-                text={"Log in"}
-                buttonColor={"transparent"}
-                borderColor={"grey"}
-                textColor={"grey"}
-                navigate={"Login"}
-              />
-            </View>
-          </ImageBackground>
-</KeyboardAvoidingWrapper> 
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <ReturnArrow navigate={"Welcome"} />
+      </View>
+
+        <Image style={styles.heroImg} source={hero} />
+
+      <Text style={styles.title}>Crie Sua Conta</Text>
+      <View style={styles.bottomContainer}>
+
+        <MyInput
+          style={styles.input}
+          placeholder={"Nome"}
+          value={userName}
+          onChangeText={setUserName}
+          icon={"user"}
+          overlay={(v) => setOverlay(v)}
+        />
+        <MyInput
+          icon={"envelope"}
+          style={styles.input}
+          placeholder={"E-mail"}
+          onChangeText={setUserEmail}
+          value={userEmail}
+          overlay={(v) => setOverlay(v)}
+        />
+        <MyInput
+          icon={"lock"}
+          style={styles.input}
+          placeholder={"Senha"}
+          onChangeText={setUserPassword}
+          value={userPassword}
+          overlay={(v) => setOverlay(v)}
+        />
+        <LoginButton
+          text={"Sign Up"}
+          buttonColor={"#894edf"}
+          textColor={"#ffff"}
+          borderColor={"transparent"}
+          height={50}
+          borderRadius={30}
+          marginTop={20}
+          function={() => createUser(userEmail, userPassword)}
+
+        />
+        <Row />
+        <LoginButton
+          text={"Log in"}
+          buttonColor={"transparent"}
+          borderColor={"grey"}
+          textColor={"grey"}
+          navigate={"Login"} 
+        />
+      </View>
+      {overlay ? <View style={styles.overlay} /> : null}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#695FBA",
     alignItems: "center",
-    flex:1,
-
+    width: Dimensions.get("window").width,
+    height: "100%",
+    backgroundColor: "#181a20",
   },
   header: {
     top: 45,
     width: "95%",
   },
   bottomContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 36,
+    marginTop: 20,
     width: "80%",
   },
   title: {
     color: "#ffff",
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     width: "90%",
-    top:"15%"
   },
 
   text: {
@@ -105,5 +114,26 @@ const styles = StyleSheet.create({
     textAlign: "right",
     marginBottom: 15,
     marginTop: 10,
+  },
+  input: {
+    height: 40,
+    fontSize: 13,
+    color: "#3A405B",
+    borderColor: "#eee",
+    borderWidth: 0.5,
+    marginTop: 5,
+    paddingLeft: 10,
+    marginHorizontal: 20,
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+    position: "absolute",
+    height,
+    width,
+  },
+  heroImg: {
+    marginTop:20,
+    height: height / 3.5,
+    width: "50%",
   },
 });
