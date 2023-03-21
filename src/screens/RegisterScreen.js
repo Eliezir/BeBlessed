@@ -1,25 +1,23 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, Dimensions, Image, checkBox } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Dimensions, Image } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-import Icon from "react-native-vector-icons/Ionicons";
-const logoH = require("../assets/img/logoHorizontal.png");
+
 
 
 import LoginButton from "../components/loginButton";
-import FormInput from "../components/formInput";
 import Row from "../components/orRow";
 import ReturnArrow from "../components/ReturnArrow";
 import MyInput from "../components/myInput";
+import SignInMethods from "../components/SignInMethods";
 
 import { createUser } from "../services/AuthServices";
 
-import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 
 const hero = require("../assets/img/blessinho.png");
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userName, setUserName] = useState("");
@@ -44,6 +42,7 @@ export default function LoginScreen() {
           onChangeText={setUserName}
           icon={"user"}
           overlay={(v) => setOverlay(v)}
+          placeholderTextColor="#894edf"
         />
         <MyInput
           icon={"envelope"}
@@ -52,6 +51,7 @@ export default function LoginScreen() {
           onChangeText={setUserEmail}
           value={userEmail}
           overlay={(v) => setOverlay(v)}
+          placeholderTextColor="#894edf"
         />
         <MyInput
           icon={"lock"}
@@ -60,6 +60,7 @@ export default function LoginScreen() {
           onChangeText={setUserPassword}
           value={userPassword}
           overlay={(v) => setOverlay(v)}
+          placeholderTextColor="#894edf"
         />
         <LoginButton
           text={"Sign Up"}
@@ -73,13 +74,7 @@ export default function LoginScreen() {
 
         />
         <Row />
-        <LoginButton
-          text={"Log in"}
-          buttonColor={"transparent"}
-          borderColor={"grey"}
-          textColor={"grey"}
-          navigate={"Login"} 
-        />
+        <SignInMethods type={"register"}/>
       </View>
       {overlay ? <View style={styles.overlay} /> : null}
     </SafeAreaView>
@@ -118,12 +113,13 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     fontSize: 13,
-    color: "#3A405B",
-    borderColor: "#eee",
+    color: "#894edf",
+    borderColor: "#894edf",
     borderWidth: 0.5,
     marginTop: 5,
     paddingLeft: 10,
     marginHorizontal: 20,
+    width:"70%",
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -133,7 +129,7 @@ const styles = StyleSheet.create({
   },
   heroImg: {
     marginTop:20,
-    height: height / 3.5,
+    height: height / 3.2,
     width: "50%",
   },
 });

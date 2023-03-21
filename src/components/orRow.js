@@ -3,12 +3,12 @@ import { View,Text } from 'react-native';
 
 export default function Row() {
  return (
-    <View style={{flexDirection: 'row', alignItems: 'center', marginVertical:12.5,}}>
-    <View style={{flex: 1, height: 1.25, backgroundColor: 'grey'}} />
+    <View style={{flexDirection: 'row', alignItems: 'center', marginTop:25,}}>
+    <View style={{flex: 1, height: 1.25, backgroundColor: '#27282d'}} />
     <View>
-        <Text style={{width: 50, textAlign: 'center', color:"grey"}}>Ou</Text>
+        <Text style={{fontSize:13, width: 135, textAlign: 'center', color:"#fff"}}>ou continue com</Text>
     </View>
-    <View style={{flex: 1, height: 1.25, backgroundColor: 'grey'}} />
+    <View style={{flex: 1, height: 1.25, backgroundColor: '#27282d'}} />
     </View>
   );
 }

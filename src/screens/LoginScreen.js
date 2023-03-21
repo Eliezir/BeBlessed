@@ -3,105 +3,136 @@ import {
   View,
   Text,
   StyleSheet,
-  ImageBackground,
+  Dimensions,
+  SafeAreaView,
+  Image
 } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-const logoH = require("../assets/img/logoHorizontal.png");
 
-
+const {width,height} = Dimensions.get("window")
 
 import LoginButton from "../components/loginButton";
-import FormInput from "../components/formInput";
+import MyInput from "../components/myInput";
+import SignInMethods from "../components/SignInMethods";
 import Row from "../components/orRow";
 import ReturnArrow from "../components/ReturnArrow" 
 
-import background from "../assets/img/background2.png";
-import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
-
-import { useNavigation } from '@react-navigation/native';
+const hero = require("../assets/img/logoIcon.png");
 
 import {doLogin} from "../services/AuthServices"
 
 
 export default function LoginScreen() {
-  const navigation = useNavigation();
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [overlay, setOverlay] = useState(false);
 
- const[userEmail, setUserEmail] = useState("");
- const[userPassword, setUserPassword] = useState("");
   return (
-    <KeyboardAvoidingWrapper>
-          <ImageBackground source={background} style={styles.container}>
-            <View style={styles.header}>
-            <ReturnArrow navigate={"Welcome"}/>
-            </View>
-            <Text style={styles.title}>Bem-Vindo {"\n"}De Volta</Text>
-            <View style={styles.bottomContainer}>
-              <FormInput
-                icon={"envelope-o"}
-                iconColor={"grey"}
-                placeholder={"E-mail"}
-                setUseState={setUserEmail}
-                useState={userEmail}
-              />
-              <FormInput
-                icon={"lock"}
-                iconColor={"grey"}
-                placeholder={"Password"}
-                setUseState={setUserPassword}
-                useState={userPassword}
-              />
-              <Text style={styles.text}>Esqueceu a senha?</Text>
-              <LoginButton
-                text={"Log in"}
-                buttonColor={"#734d9d"}
-                textColor={"#ffff"}
-                borderColor={"transparent"}
-                function={()=>doLogin(userEmail, userPassword)}
-              />
-              <Row />
-              <LoginButton
-                text={"Sign Up"}
-                buttonColor={"transparent"}
-                borderColor={"grey"}
-                textColor={"grey"}
-                navigate={"Register"}
-              />
-            </View>
-          </ImageBackground>
-</KeyboardAvoidingWrapper> 
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <ReturnArrow navigate={"Welcome"} />
+      </View>
+
+        <Image style={styles.heroImg} source={hero} />
+
+      <Text style={styles.title}>Entre em Sua Conta</Text>
+      <View style={styles.bottomContainer}>
+
+ 
+        <MyInput
+          icon={"envelope"}
+          style={styles.input}
+          placeholder={"E-mail"}
+          onChangeText={setUserEmail}
+          value={userEmail}
+          overlay={(v) => setOverlay(v)}
+          placeholderTextColor={"#894edf"}
+        />
+        <MyInput
+          icon={"lock"}
+          style={styles.input}
+          placeholder={"Senha"}
+          onChangeText={setUserPassword}
+          value={userPassword}
+          overlay={(v) => setOverlay(v)}
+          placeholderTextColor="#894edf"
+        />
+        <LoginButton
+          text={"Entrar"}
+          buttonColor={"#894edf"}
+          textColor={"#ffff"}
+          borderColor={"transparent"}
+          height={50}
+          borderRadius={30}
+          marginTop={20}
+          function={() => doLogin(userEmail, userPassword)}
+
+
+        />
+        <Text onPress={()=>console.log("esqueceu a senha")} style={styles.forgotPassword}>Esqueceu sua senha?</Text>
+        <Row />
+        <SignInMethods type={"login"}/>
+      </View>
+      {overlay ? <View style={styles.overlay} /> : null}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#695FBA",
     alignItems: "center",
-    flex:1,
-
+    width: Dimensions.get("window").width,
+    height: "100%",
+    backgroundColor: "#181a20",
   },
   header: {
     top: 45,
     width: "95%",
   },
   bottomContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 36,
+    marginTop: 20,
     width: "80%",
   },
   title: {
     color: "#ffff",
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     width: "90%",
-    top:"15%"
   },
-
   text: {
     color: "#734d9d",
     textAlign: "right",
     marginBottom: 15,
     marginTop: 10,
   },
+  input: {
+    height: 40,
+    fontSize: 13,
+    color: "#894edf",
+    borderColor: "#894edf",
+    borderWidth: 0.5,
+    marginTop: 5,
+    paddingLeft: 10,
+    marginHorizontal: 20,
+    width:"70%",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+    position: "absolute",
+    height,
+    width,
+  },
+  heroImg: {
+    marginTop:20,
+    height: height / 3.2,
+    width: "50%",
+  },
+  forgotPassword:{
+    textAlign:"center",
+    marginTop:20,
+    marginBottom:10,
+    color:"#5a3392",
+    fontWeight:"bold",
+    fontSize:14
+  }
 });
