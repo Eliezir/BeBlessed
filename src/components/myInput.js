@@ -61,12 +61,15 @@ export default function input(props) {
             onPress={() => setVisibility(false)}
           />
           <View style={styles.inputWrapper}>
+       
+        <Icon name={props.icon} size={20} color={props.placeholderTextColor} />
+  
             <TextInput
               {...props}
               ref={inputRef}
               autoFocus={Platform.OS === "ios"}
               onBlur={() => setVisibility(false)}
-              onSubmitEditing={() => setVisibility(false)}
+              onSubmitEditing={() => setVisibility(false)}    
             />
           </View>
         </SafeAreaView>
@@ -98,10 +101,13 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     flex: Platform.OS === "ios" ? 1 : 0,
-    backgroundColor: "#1f222a",
+    backgroundColor: "#181a20",
     paddingVertical: 10,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"center"
   },
   icon:{
     width:"10%",
