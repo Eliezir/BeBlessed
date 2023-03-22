@@ -55,6 +55,7 @@ export default function LoginScreen() {
           value={userPassword}
           overlay={(v) => setOverlay(v)}
           placeholderTextColor="#894edf"
+          password={true}
         />
         <LoginButton
           text={"Entrar"}

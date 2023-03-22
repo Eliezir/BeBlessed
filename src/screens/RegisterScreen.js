@@ -1,9 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, Dimensions, Image } from "react-native";
-
-const { width, height } = Dimensions.get("window");
-
-
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, SafeAreaView, Dimensions, Image, Alert } from "react-native";
 
 
 import LoginButton from "../components/loginButton";
@@ -11,8 +7,10 @@ import Row from "../components/orRow";
 import ReturnArrow from "../components/ReturnArrow";
 import MyInput from "../components/myInput";
 import SignInMethods from "../components/SignInMethods";
+import validator from "validator";
 
 import { createUser } from "../services/AuthServices";
+
 
 
 const hero = require("../assets/img/blessinho.png");
@@ -21,11 +19,23 @@ export default function RegisterScreen() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userName, setUserName] = useState("");
-
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [overlay, setOverlay] = useState(false);
 
+  useEffect(() => {
+    if (validator.isEmail(userEmail) && validator.isLength(userPassword, 6) && userName) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+ 
+  }, [userEmail, userPassword]);
+
+
+ 
   return (
     <SafeAreaView style={styles.container}>
+ 
       <View style={styles.header}>
         <ReturnArrow navigate={"Welcome"} />
       </View>
@@ -61,16 +71,21 @@ export default function RegisterScreen() {
           value={userPassword}
           overlay={(v) => setOverlay(v)}
           placeholderTextColor="#894edf"
+          password={true}
         />
         <LoginButton
           text={"Sign Up"}
-          buttonColor={"#894edf"}
+          buttonColor={buttonDisabled ? "rgba(144, 93, 227,0.3)" : "#894edf"}
           textColor={"#ffff"}
           borderColor={"transparent"}
           height={50}
           borderRadius={30}
           marginTop={20}
-          function={() => createUser(userEmail, userPassword)}
+          function={() => buttonDisabled ? 
+            Alert.alert("BeBlessed", "Preencha todos os campos com dados validos e uma senha de no mínimo 6 dígitos.", [
+              { text: "OK", onPress: () => {} },
+            ])
+            : createUser(userEmail, userPassword)}
 
         />
         <Row />
@@ -124,12 +139,12 @@ const styles = StyleSheet.create({
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
     position: "absolute",
-    height,
-    width,
+    height : Dimensions.get("window").height,
+    width : Dimensions.get("window").width
   },
   heroImg: {
     marginTop:20,
-    height: height / 3.2,
+    height: Dimensions.get("window").height / 3.2,
     width: "50%",
   },
 });

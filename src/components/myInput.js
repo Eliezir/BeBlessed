@@ -46,7 +46,9 @@ export default function input(props) {
           { color: props.value === "" ? "#9c9c9d" : "#ededed" },
         ]}
       >
-        {props.value || props.placeholder}{" "}
+        {props.value? 
+        props.password ? props.value.replace(/./g, '*') : props.value 
+        : props.placeholder}
       </Text>
       <Modal
         visible={modalVisible}
@@ -54,6 +56,7 @@ export default function input(props) {
         animationType="slide"
         transparent
         onShow={setFocus}
+        
       >
         <SafeAreaView style={{ flex: 1 }}>
           <TouchableOpacity
@@ -70,6 +73,7 @@ export default function input(props) {
               autoFocus={Platform.OS === "ios"}
               onBlur={() => setVisibility(false)}
               onSubmitEditing={() => setVisibility(false)}    
+              secureTextEntry={props.password ? true : false}
             />
           </View>
         </SafeAreaView>
