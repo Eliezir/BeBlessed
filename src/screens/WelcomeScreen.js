@@ -6,6 +6,7 @@ import {
   Text,
   StyleSheet,
   Dimensions,
+  StatusBar
 } from "react-native";
 const logoH = require("../assets/img/logoHorizontal.png");
 const hero = require("../assets/img/hero.png");
@@ -16,9 +17,7 @@ const { width, height } = Dimensions.get("window");
 export default function WelcomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
-     {/*  <View style={styles.header}>
-        <Image style={styles.logo} source={logoH} />
-      </View> */}
+    <StatusBar translucent={true} backgroundColor="transparent"/>
       <View style={styles.hero}>
         <Image style={styles.heroImg} source={hero} />
       </View>
