@@ -85,7 +85,7 @@ export default function RegisterScreen() {
             Alert.alert("BeBlessed", "Preencha todos os campos com dados validos e uma senha de no mínimo 6 dígitos.", [
               { text: "OK", onPress: () => {} },
             ])
-            : createUser(userEmail, userPassword)}
+            : createUser(userEmail, userPassword, userName)}
 
         />
         <Row />
