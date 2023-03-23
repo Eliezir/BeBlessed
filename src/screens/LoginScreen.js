@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
   SafeAreaView,
-  Image
+  Image,
+  Modal,
+  TextInput
 } from "react-native";
+
+import Icon from "react-native-vector-icons/Ionicons";
 
 const {width,height} = Dimensions.get("window")
 
@@ -15,17 +19,20 @@ import MyInput from "../components/myInput";
 import SignInMethods from "../components/SignInMethods";
 import Row from "../components/orRow";
 import ReturnArrow from "../components/ReturnArrow" 
-
 const hero = require("../assets/img/logoIcon.png");
 
 import {doLogin} from "../services/AuthServices"
+import { ForgotPassword } from "../services/AuthServices";
+
 
 
 export default function LoginScreen() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [emailRecover, setEmailRecover] = useState("")
   const [overlay, setOverlay] = useState(false);
-
+  const [modalVisible, setVisible] = useState(false);
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -69,11 +76,40 @@ export default function LoginScreen() {
 
 
         />
-        <Text onPress={()=>console.log("esqueceu a senha")} style={styles.forgotPassword}>Esqueceu sua senha?</Text>
-        <Row />
+        <Text onPress={ () => {setVisible(true)}} style={styles.forgotPassword}>Esqueceu sua senha?</Text>
+       <Row/>
         <SignInMethods type={"login"}/>
+        
       </View>
+
+      <Modal  animationType="slide" visible={modalVisible}>
+     
+        <SafeAreaView style={styles.modalStyle}>
+        <Icon style={{position:"absolute",top:45, left: 20}} name="chevron-back-outline" size={30} color="#ffff"onPress={()=>setVisible(false)}/>
+          <View style={styles.modalContainer}>
+        <TextInput 
+        style={styles.modalInput}
+        onChangeText={setEmailRecover}
+        value={emailRecover}
+        placeholder="Digite o e-mail"
+        placeholderTextColor={"#fff"}            
+        />
+ 
+        <LoginButton
+            text={"Enviar"}
+            buttonColor={"#894edf"}
+            textColor={"#ffff"}
+            borderColor={"transparent"}
+            height={50}
+            borderRadius={30}
+            marginTop={20}
+            function={()=> {ForgotPassword(emailRecover), setVisible(false), setEmailRecover("")}}
+        />
+        </View>
+        </SafeAreaView>
+    </Modal>
       {overlay ? <View style={styles.overlay} /> : null}
+
     </SafeAreaView>
   );
 }
@@ -135,5 +171,28 @@ const styles = StyleSheet.create({
     color:"#5a3392",
     fontWeight:"bold",
     fontSize:14
+  },
+  modalContainer:{
+    width:"80%"
+  },
+  modalStyle:{
+    backgroundColor:"#181a20",
+    flex:1,
+    justifyContent:"center",
+    alignItems: "center",
+  },
+  modalInput:{
+    color:"#fff",
+    fontSize:15,
+    textAlign:"center",
+    backgroundColor: "#1f222a",
+    borderRadius: 15,
+    borderColor: "transparent",
+    borderWidth: 1,
+    height: 55,
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems:"flex-start",
+    marginVertical:7.5
   }
 });
