@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet,TouchableOpacity,Dimensions, Image} from 'react-native';
 import { SendValidateEmail } from '../services/AuthServices';
 
+import {signOut} from "../services/userServices";
+
 export default function UserNotVerified(props) {
     
     const hero = require("../assets/img/check-email.png");
@@ -10,6 +12,7 @@ export default function UserNotVerified(props) {
     const user = props.user;
  return (
    <View style={styles.container}>
+
     <Text style={styles.title}>Validação de Email</Text>
     <View style={styles.hero}>
         <Image style={styles.heroImg} source={hero} />
@@ -24,6 +27,7 @@ export default function UserNotVerified(props) {
    onPress={()=>{SendValidateEmail(user)}}
    > clique aqui</Text>
    </View>
+   <Text style={[styles.text,{ marginHorizontal:0,fontSize:12 ,color:"red", marginTop:15}]} onPress={()=>{signOut()}}> SAIR</Text>
     </View>
   );
 }

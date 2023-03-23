@@ -5,26 +5,26 @@ import {
   Dimensions,
   StyleSheet,
   View,
-  Image,
   ImageBackground,
 } from "react-native";
 
-
-
 import Icon from "react-native-vector-icons/Ionicons";
-
+import { useNavigation } from '@react-navigation/native';
 import userImage from "../assets/img/userImage.jpeg";
 const {width,height} = Dimensions.get("window")
 
-export default function Profile(props) {
 
+import {signOut} from "../services/userServices";
+
+export default function Profile(props) {
+const navigation = useNavigation();
 const user = props.user;
 
  return (
    <SafeAreaView style={styles.container}>
     <View style={styles.header}>
-    <Icon name="chevron-back-outline" size={30} color="#ffff"/>
-    <Icon name="ellipsis-vertical" size={30} color="#ffff"/>
+    <Icon name="chevron-back-outline" size={30} color="#ffff" onPress={()=>signOut()}/>
+    <Icon name="ellipsis-vertical" size={30} color="#ffff" onPress={()=>navigation.navigate("ProfileEdit")}/>
     </View>
     
     <ImageBackground source={userImage} style={styles.userImage}>

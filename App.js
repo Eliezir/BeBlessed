@@ -6,22 +6,25 @@ import LoginScreen from './src/screens/LoginScreen'
 import RegisterScreen from './src/screens/RegisterScreen'
 import Profile  from './src/screens/Profile'
 import UserNotVerified from "./src/screens/UserNotVerified"
+import ProfileEdit from './src/screens/ProfileEdit';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
-import { initializeApp } from "firebase/app";
 import { onAuthStateChanged } from 'firebase/auth';
+
+import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import * as SecureStore from 'expo-secure-store';
 
 const firebaseConfig = {
-
+//firebase config
 };
 
-const Stack = createStackNavigator();
-const app = initializeApp(firebaseConfig);
+
 
 export default function App() {
+  const Stack = createStackNavigator();
+  const app = initializeApp(firebaseConfig);
   const auth = getAuth();
   const [user, setUser] = useState(auth.currentUser);
 
@@ -54,10 +57,21 @@ export default function App() {
   if(user){
     if(user.emailVerified){
       return(
-        <Profile user={user}/>
+        <NavigationContainer>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Profile">
+        {(props) => <Profile  user={user} />}
+        </Stack.Screen>
+        <Stack.Screen name="ProfileEdit" user={user}>
+        {(props) => <ProfileEdit  user={user} />}
+        </Stack.Screen>
+        
+      </Stack.Navigator>
+    </NavigationContainer>
+
       )
     }
-    else if(!user.emailVerified){
+    else if(! user.emailVerified){
       return(
         <UserNotVerified user={user} checkUser={()=>{validateEmail()}}/>
       )

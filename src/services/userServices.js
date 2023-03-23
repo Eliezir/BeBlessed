@@ -1,31 +1,15 @@
-import {  Alert } from "react-native";
-import ImagePicker from 'react-native-image-picker';
-import firebase from 'firebase';
+import { getAuth,updateProfile } from "firebase/auth";
+import * as SecureStore from 'expo-secure-store';
 
-export const handleImageUser = () => {
-    
+const firebaseAuth = getAuth();
+
+export const updateUser = (user, name) =>{
+  if(name != user.displayName){
+    updateProfile(user,{displayName:name})
+    }
+
 }
-    /*Alert.alert(
-        "Selecione",
-        "Escolha de onde você quer pegar a foto",
-        [
-            {
-                text: "Galeria",
-                onPress: () => pickImageFromGalery(),
-                style: "default"
-            },
-            {
-                text: "Câmera",
-                onPress: () => pickImageFromCamera(),
-                style: "default"
-            }
-        ],
-        {
-            cancelable: true,
-            onDismiss: () => {
-
-            }
-        }
-    )*/
-    
-    
+export const signOut = async () => {
+  await SecureStore.deleteItemAsync("user");
+  await firebaseAuth.signOut();
+}

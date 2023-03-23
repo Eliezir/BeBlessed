@@ -104,13 +104,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   inputWrapper: {
-    flex: Platform.OS === "ios" ? 1 : 0,
+    flex: Platform.OS === "ios" ? 1/1.3 : 0,
     backgroundColor: "#181a20",
-    paddingVertical: 10,
+    paddingVertical: 20,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     flexDirection:"row",
-    alignItems:"center",
     justifyContent:"center"
   },
   icon:{
