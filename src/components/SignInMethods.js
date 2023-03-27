@@ -3,8 +3,8 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 
-
-import { googleLogin } from "../services/AuthServices";
+/* 
+import { googleLogin } from "../services/AuthServices"; */
 
 export default function SignInMethods(props) {
     const navigation = useNavigation();
@@ -14,7 +14,7 @@ export default function SignInMethods(props) {
     <TouchableOpacity style={styles.button}>
         <Image style={styles.icon }source={require("../assets/img/icons/facebook.png")}/>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.button} onPress={googleLogin}>
+    <TouchableOpacity style={styles.button}>
         <Image style={styles.icon }source={require("../assets/img/icons/google-icon.png")}/>
     </TouchableOpacity>
     <TouchableOpacity style={styles.button}>

@@ -1,4 +1,3 @@
-/* import validator from "validator"; */
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile } from "firebase/auth";
 import {  Alert } from "react-native";
 import * as SecureStore from 'expo-secure-store';

@@ -14,7 +14,8 @@ import LoginButton from "../components/loginButton";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';
 
-import {updateUser} from "../services/userServices";
+import {updateUser, changePhoto} from "../services/userServices";
+
 import userImage from "../assets/img/userImage.jpeg";
 const {width,height} = Dimensions.get("window")
 
@@ -26,6 +27,7 @@ const user = props.user;
 
 const [overlay, setOverlay] = useState(false);
 const [userName, setUsername] = useState(user.displayName);
+const [userPhoto, setUserPhoto] = useState(user.PhotoUrl)
 
  return (
    <View style={styles.container}>
@@ -33,8 +35,8 @@ const [userName, setUsername] = useState(user.displayName);
     <Icon name="chevron-back-outline" size={30} color="#ffff" onPress={()=>navigation.navigate("Profile")}/>
     </View>
     
-    <ImageBackground source={userImage} style={styles.userImage}>
-     <TouchableOpacity style={styles.updateImageContainer}>
+    <ImageBackground source={userPhoto} style={styles.userImage}>
+     <TouchableOpacity style={styles.updateImageContainer} onPress={()=>{setUserPhoto(changePhoto)}}>
     <View style={styles.updateImageicon}>
      <Icon name="camera" size={20} color="#000" />
      </View>

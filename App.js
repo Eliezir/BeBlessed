@@ -17,14 +17,20 @@ import { getAuth } from 'firebase/auth';
 import * as SecureStore from 'expo-secure-store';
 
 const firebaseConfig = {
-//firebase config
+  apiKey: "AIzaSyAwSDlGHKEKX_GLIwjp-y6d3AVSkUQRWgs",
+  authDomain: "beblessed-640a7.firebaseapp.com",
+  projectId: "beblessed-640a7",
+  storageBucket: "beblessed-640a7.appspot.com",
+  messagingSenderId: "659842303363",
+  appId: "1:659842303363:web:88664d968d026f184be2b6"
 };
 
 
+const Stack = createStackNavigator();
+const app = initializeApp(firebaseConfig);
 
 export default function App() {
-  const Stack = createStackNavigator();
-  const app = initializeApp(firebaseConfig);
+ 
   const auth = getAuth();
   const [user, setUser] = useState(auth.currentUser);
 
