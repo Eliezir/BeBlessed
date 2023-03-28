@@ -50,7 +50,6 @@ export default function App() {
 
   const validateEmail = async () =>{
      const userValidate = await auth.currentUser.reload();
-     console.log(userValidate)
     if (userValidate) {
       setUser(userValidate);
     } else {

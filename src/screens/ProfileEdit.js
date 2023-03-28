@@ -16,7 +16,6 @@ import { useNavigation } from '@react-navigation/native';
 
 import {updateUser, changePhoto} from "../services/userServices";
 
-import userImage from "../assets/img/userImage.jpeg";
 const {width,height} = Dimensions.get("window")
 
 export default function ProfileEdit(props) {
@@ -27,7 +26,12 @@ const user = props.user;
 
 const [overlay, setOverlay] = useState(false);
 const [userName, setUsername] = useState(user.displayName);
-const [userPhoto, setUserPhoto] = useState(user.PhotoUrl)
+const [userPhoto, setUserPhoto] = useState(user.photoURL)
+
+const changeUserPhoto = async() =>{
+const photo = await changePhoto(userPhoto)
+setUserPhoto(photo)
+}
 
  return (
    <View style={styles.container}>
@@ -35,8 +39,8 @@ const [userPhoto, setUserPhoto] = useState(user.PhotoUrl)
     <Icon name="chevron-back-outline" size={30} color="#ffff" onPress={()=>navigation.navigate("Profile")}/>
     </View>
     
-    <ImageBackground source={userPhoto} style={styles.userImage}>
-     <TouchableOpacity style={styles.updateImageContainer} onPress={()=>{setUserPhoto(changePhoto)}}>
+    <ImageBackground source={{uri:userPhoto}} style={styles.userImage}>
+     <TouchableOpacity style={styles.updateImageContainer} onPress={()=>{changeUserPhoto()}}>
     <View style={styles.updateImageicon}>
      <Icon name="camera" size={20} color="#000" />
      </View>
@@ -63,7 +67,7 @@ const [userPhoto, setUserPhoto] = useState(user.PhotoUrl)
             height={50}
             marginTop={20}
             width={"90%"}
-            function={()=> updateUser(user,userName)}
+            function={()=> updateUser(user,userName, userPhoto)}
         />
 
 {overlay ? <View style={styles.overlay} /> : null}

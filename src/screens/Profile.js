@@ -19,6 +19,7 @@ import {signOut} from "../services/userServices";
 export default function Profile(props) {
 const navigation = useNavigation();
 const user = props.user;
+const [userPhoto, setUserPhoto] = useState(user.photoURL)
 
  return (
    <SafeAreaView style={styles.container}>
@@ -27,7 +28,7 @@ const user = props.user;
     <Icon name="ellipsis-vertical" size={30} color="#ffff" onPress={()=>navigation.navigate("ProfileEdit")}/>
     </View>
     
-    <ImageBackground source={userImage} style={styles.userImage}>
+    <ImageBackground source={{uri:userPhoto}} style={styles.userImage}>
       <Text style={styles.userName}>{user.displayName}</Text>
       
       </ImageBackground>
