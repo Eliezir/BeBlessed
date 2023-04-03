@@ -48,7 +48,7 @@ export default function App() {
     }
   });
 
-  const validateEmail = async () =>{
+  const updateUser = async () =>{
      const userValidate = await auth.currentUser.reload();
     if (userValidate) {
       setUser(userValidate);
@@ -56,8 +56,6 @@ export default function App() {
       setUser(null);
     }
     };
-  
-
 
   if(user){
     if(user.emailVerified){
@@ -68,7 +66,7 @@ export default function App() {
         {(props) => <Profile  user={user} />}
         </Stack.Screen>
         <Stack.Screen name="ProfileEdit" user={user}>
-        {(props) => <ProfileEdit  user={user} />}
+        {(props) => <ProfileEdit  user={user} updateUser={()=>updateUser()}/>}
         </Stack.Screen>
         
       </Stack.Navigator>
@@ -78,7 +76,7 @@ export default function App() {
     }
     else if(! user.emailVerified){
       return(
-        <UserNotVerified user={user} checkUser={()=>{validateEmail()}}/>
+        <UserNotVerified user={user} checkUser={()=>{updateUser()}}/>
       )
     }
   }
@@ -93,3 +91,6 @@ export default function App() {
 </NavigationContainer>
   );
 }
+
+
+/* 1680128850680 */

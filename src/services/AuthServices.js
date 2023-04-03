@@ -14,10 +14,14 @@ export const doLogin =  (email,password) => {
         switch (err.code) {
           case 'auth/invalid-email': 
           Alert.alert("Erro","Email inválido.")
+
           break;
           case 'auth/wrong-password':
-          Alert.alert("Erro", 'Senha incorreta.')
+          Alert.alert("Erro", 'email ou senha incorretos.')
           break;
+          case 'auth/user-not-found':
+            Alert.alert("Erro", 'email ou senha incorretos.')
+            break;
         }
       })
   }

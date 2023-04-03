@@ -2,7 +2,7 @@ import { getAuth,updateProfile } from "firebase/auth";
 import * as SecureStore from 'expo-secure-store';
 import { getStorage, ref, uploadBytes, getDownloadURL  } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker"
-import React,{useState, useEffect} from 'react';
+
 
 
 export const updateUser = async (user, name, photo) =>{
@@ -13,7 +13,7 @@ export const updateUser = async (user, name, photo) =>{
 
   if(photo != user.photoURL){
     const storage = getStorage();
-    const imageRef = ref(storage, 'ProfilePictures/' + user.displayName);
+    const imageRef = ref(storage, 'ProfilePictures/' + user.email);
     let photoUrl
     const metadata = {
       contentType: 'image/png',
@@ -27,7 +27,6 @@ export const updateUser = async (user, name, photo) =>{
   })
   .catch((err) => 
   {
-    console.error(err);
   })
   updateProfile(user,{photoURL:photo})
   }

@@ -33,6 +33,11 @@ const photo = await changePhoto(userPhoto)
 setUserPhoto(photo)
 }
 
+const saveUpdates = async()=>{
+ await updateUser(user,userName, userPhoto)
+  props.updateUser()
+}
+
  return (
    <View style={styles.container}>
     <View style={styles.header}>
@@ -67,7 +72,7 @@ setUserPhoto(photo)
             height={50}
             marginTop={20}
             width={"90%"}
-            function={()=> updateUser(user,userName, userPhoto)}
+            function={()=> saveUpdates()}
         />
 
 {overlay ? <View style={styles.overlay} /> : null}
@@ -93,6 +98,7 @@ const styles = StyleSheet.create({
     zIndex:-1,
     top:0,
     marginBottom:10,
+    marginTop:-40,
     justifyContent:"center",
     alignItems:"center"
   },

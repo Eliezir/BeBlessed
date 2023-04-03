@@ -10,7 +10,6 @@ import {
 
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';
-import userImage from "../assets/img/userImage.jpeg";
 const {width,height} = Dimensions.get("window")
 
 
