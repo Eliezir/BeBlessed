@@ -9,7 +9,7 @@
     "splash": {
       "image": "./src/assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#fffff"
+      "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -31,6 +31,12 @@
       "eas": {
         "projectId": "5146c6ff-c763-4571-84f4-f4d5876ccc08"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/5146c6ff-c763-4571-84f4-f4d5876ccc08"
     }
   }
 }
