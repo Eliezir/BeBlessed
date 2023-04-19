@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import {
   SafeAreaView,
   Text,
@@ -8,16 +8,18 @@ import {
   ImageBackground,
 } from "react-native";
 
+import { getAuth } from "firebase/auth";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';
 const {width,height} = Dimensions.get("window")
 
 
-import {signOut} from "../services/userServices";
+import {signOut} from "../services/AuthServices";
 
-export default function Profile(props) {
+export default function Profile() {
 const navigation = useNavigation();
-const user = props.user;
+const firebaseAuth = getAuth();
+const user = firebaseAuth.currentUser;
 const [userPhoto, setUserPhoto] = useState(user.photoURL)
 
  return (

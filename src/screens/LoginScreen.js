@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,6 @@ import {
 } from "react-native";
 
 import Icon from "react-native-vector-icons/Ionicons";
-
 const {width,height} = Dimensions.get("window")
 
 import LoginButton from "../components/loginButton";

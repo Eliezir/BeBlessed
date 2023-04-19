@@ -6,9 +6,10 @@ import * as SecureStore from 'expo-secure-store';
 export const doLogin =  (email,password) => {
     const firebaseAuth = getAuth();
     signInWithEmailAndPassword(firebaseAuth, email, password)
-      .then(async (userCredential) => {
+      .then((userCredential) => {
         const user = userCredential.user;
-        await SecureStore.setItemAsync("user", JSON.stringify(user));
+         SecureStore.setItemAsync("user", JSON.stringify(user));
+
       })
       .catch((err) => {
         switch (err.code) {
@@ -83,4 +84,10 @@ export const ForgotPassword = (email)=> {
   }
   
 
+}
+
+export const signOut = async () => {
+  const firebaseAuth = getAuth();
+  await SecureStore.deleteItemAsync("user");
+  await firebaseAuth.signOut();
 }
