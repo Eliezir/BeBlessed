@@ -7,22 +7,18 @@ import {
   View,
   ImageBackground,
 } from "react-native";
-
 import MyInput from "../components/myInput"
 import LoginButton from "../components/loginButton";
-
 import Icon from "react-native-vector-icons/Ionicons";
+import { getAuth } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
-
 import {updateUser, changePhoto} from "../services/userServices";
-
 const {width,height} = Dimensions.get("window")
 
 export default function ProfileEdit(props) {
 const navigation = useNavigation();
-const user = props.user;
-
-
+const firebaseAuth = getAuth();
+const user = firebaseAuth.currentUser;
 
 const [overlay, setOverlay] = useState(false);
 const [userName, setUsername] = useState(user.displayName);
@@ -35,7 +31,7 @@ setUserPhoto(photo)
 
 const saveUpdates = async()=>{
  await updateUser(user,userName, userPhoto)
-  props.updateUser()
+  props.reloadUser()
 }
 
  return (
