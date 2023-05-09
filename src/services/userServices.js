@@ -38,7 +38,6 @@ export const updateUser = async (user, name, photo) => {
     const metadata = {
       contentType: "image/png",
     };
-    console.log(blob);
     await uploadBytes(imageRef, blob, metadata)
       .then(async (snapshot) => {
         await getDownloadURL(snapshot.ref).then((downloadURL) => {
@@ -55,7 +54,7 @@ export const updateUser = async (user, name, photo) => {
     updateConfig = { photoURL: url, displayName: name };
   else if (updatePhoto) updateConfig = { photoURL: url };
   else updateConfig = { displayName: name };
-  updateProfile(user, updateConfig);
+  await updateProfile(user, updateConfig);
 };
 
 export const changePhoto = async (oldPhoto) => {
@@ -87,5 +86,15 @@ export const changePhoto = async (oldPhoto) => {
 export const getUser = async (user) => {
   const userRef = doc(db, "users", user.uid);
   const userStore = await getDoc(userRef);
-  console.log(userStore.data());
+  const data = userStore.data()
+  return {
+    bio: data.bio,
+    friends: data.friends,
+    username: data.username
+  }
+};
+
+ export const updateBio = async (user, bio) => {
+  const userRef = doc(db, "users", user.uid);
+  await setDoc(userRef, { bio: bio }, { merge: true });
 };

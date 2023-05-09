@@ -22,8 +22,12 @@ export default function Profile() {
   const firebaseAuth = getAuth();
   const user = firebaseAuth.currentUser;
   const [userPhoto, setUserPhoto] = useState(user.photoURL);
-
-  getUser(user);
+  const [userProfile, setUserProfile] = useState();
+  useEffect(()=>{
+    getUser(user).then((userFireStore)=>{
+      setUserProfile(userFireStore)
+    })
+  },[])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,6 +49,13 @@ export default function Profile() {
       <ImageBackground source={{ uri: userPhoto }} style={styles.userImage}>
         <Text style={styles.userName}>{user.displayName}</Text>
       </ImageBackground>
+      {userProfile &&     
+      <View style={styles.profileContainer}>
+      <Text style={styles.userBio}>
+        {userProfile.bio}
+      </Text>
+      </View>
+      }
     </SafeAreaView>
   );
 }
@@ -54,16 +65,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#181a20",
     alignItems: "center",
     flex: 1,
+    top:0,
+    
   },
   header: {
+    position: "absolute",
     top: 15,
     width: "95%",
     justifyContent: "space-between",
     flexDirection: "row",
   },
   userImage: {
-    position: "absolute",
-    height: height / 2.5,
+    height: height / 2.3,
     width: width,
     zIndex: -1,
     top: 0,
@@ -71,9 +84,20 @@ const styles = StyleSheet.create({
   userName: {
     position: "absolute",
     bottom: -10,
-    left: 35,
+    left: 25,
     color: "#fff",
     fontWeight: "900",
-    fontSize: 35,
+    fontSize: 37,
+    textShadowColor: "#121212",
+    textShadowRadius: 15,
   },
+  userBio:{
+    color:"#fff",
+    fontWeight:600,
+    fontSize:18,
+  },
+  profileContainer:{
+  width:width - 50,
+  marginTop:12.5
+  }
 });

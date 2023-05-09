@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import {
   TouchableOpacity,
   Text,
@@ -12,7 +12,8 @@ import LoginButton from "../components/loginButton";
 import Icon from "react-native-vector-icons/Ionicons";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
-import {updateUser, changePhoto} from "../services/userServices";
+import {updateUser, changePhoto, updateBio} from "../services/userServices";
+import { getUser } from "../services/userServices";
 const {width,height} = Dimensions.get("window")
 
 export default function ProfileEdit(props) {
@@ -23,21 +24,28 @@ const user = firebaseAuth.currentUser;
 const [overlay, setOverlay] = useState(false);
 const [userName, setUsername] = useState(user.displayName);
 const [userPhoto, setUserPhoto] = useState(user.photoURL)
+const [userBio, setUserBio] = useState();
 
 const changeUserPhoto = async() =>{
-const photo = await changePhoto(userPhoto)
-setUserPhoto(photo)
+const photo = await changePhoto(userPhoto);
+setUserPhoto(photo);
 }
 
 const saveUpdates = async()=>{
- await updateUser(user,userName, userPhoto)
-  props.reloadUser()
+ await Promise.all([updateUser(user, userName, userPhoto), updateBio(user, userBio)])
+ props.reloadUser()
 }
+useEffect(()=>{
+  getUser(user).then((userFireStore)=>{
+    setUserBio(userFireStore.bio)
+  })
+},[])
 
  return (
    <View style={styles.container}>
     <View style={styles.header}>
-    <Icon name="chevron-back-outline" size={30} color="#ffff" onPress={()=>navigation.navigate("Profile")}/>
+    <Icon name="arrow-back-outline" size={28} color="#ffff" onPress={()=>navigation.navigate("Profile")}/>
+    <Text style={styles.headerText}>Edit Profile</Text>
     </View>
     
     <ImageBackground source={{uri:userPhoto}} style={styles.userImage}>
@@ -56,6 +64,15 @@ const saveUpdates = async()=>{
           placeholder={"Username"}
           onChangeText={setUsername}
           value={userName}
+          overlay={(v) => setOverlay(v)}
+          placeholderTextColor="#894edf"
+        />
+         <MyInput
+          icon={"id-card-o"}
+          style={styles.input}
+          placeholder={"Bio"}
+          onChangeText={setUserBio}
+          value={userBio}
           overlay={(v) => setOverlay(v)}
           placeholderTextColor="#894edf"
         />
@@ -84,9 +101,10 @@ const styles = StyleSheet.create({
   },
   header: {
     top: 35,
-    width: "95%",
-    justifyContent:"space-between",
-    flexDirection:"row"
+    width: "90%",
+    flexDirection:"row",
+    position:'absolute',
+    alignItems:"center",
   },
   userImage:{
     height:height/2.5,
@@ -94,7 +112,6 @@ const styles = StyleSheet.create({
     zIndex:-1,
     top:0,
     marginBottom:10,
-    marginTop:-40,
     justifyContent:"center",
     alignItems:"center"
   },
@@ -102,12 +119,15 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom:0, 
     flexDirection:"row",
-    alignItems:"center"
+    alignItems:"center",
+    marginBottom:10,
   },
   updateImageText:{
     color:"#fff",
     fontWeight:'bold',
-    fontSize:16
+    fontSize:16,
+    textShadowColor: "#121212",
+    textShadowRadius: 15,
   },
   updateImageicon:{
     backgroundColor:"#FFF",
@@ -136,4 +156,9 @@ const styles = StyleSheet.create({
     height,
     width,
   },
+  headerText:{
+    color:"#fff",
+    fontWeight:'bold',
+    marginLeft:10,
+  }
 });
