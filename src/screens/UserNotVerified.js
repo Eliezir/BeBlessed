@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { View, Text, StyleSheet,TouchableOpacity,Dimensions, Image} from 'react-native';
 import { SendValidateEmail } from '../services/AuthServices';
 
@@ -8,8 +8,9 @@ export default function UserNotVerified(props) {
     
     const hero = require("../assets/img/check-email.png");
 
-
+ 
     const user = props.user;
+  
  return (
    <View style={styles.container}>
 
@@ -17,7 +18,7 @@ export default function UserNotVerified(props) {
     <View style={styles.hero}>
         <Image style={styles.heroImg} source={hero} />
       </View>
-    <Text style={styles.text}>{user.displayName}, para acessar nosso app, primeiro você deve verificar o seu email.{"\n"}nós enviamos um email de verificação para {user.email}, faça a verificação e depois clique no botão abaixo para acessar seu perfil.</Text>
+    <Text style={styles.text}>Para acessar nosso app, primeiro você deve validar o seu Email. Nós enviamos um email de verificação para <Text style={{backgroundColor:"#894edf"}}>{` ${user.email} `}</Text>, faça a verificação e depois clique no botão abaixo para acessar seu perfil 💜</Text>
    <TouchableOpacity style={styles.button} onPress={props.checkUser}>
     <Text style={styles.buttonText}>Acessar</Text>
    </TouchableOpacity>
