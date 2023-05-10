@@ -1,7 +1,7 @@
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile } from "firebase/auth";
 import {  Alert } from "react-native";
 import * as SecureStore from 'expo-secure-store';
-
+import {createFireStoreUser} from './userServices'
 
 export const doLogin =  (email,password) => {
     const firebaseAuth = getAuth();
@@ -27,14 +27,16 @@ export const doLogin =  (email,password) => {
       })
   }
 
-  export const createUser = (email,password,userName) => {
+  export const createUser  =  async (email,password,userName) => {
     const firebaseAuth = getAuth();
-    createUserWithEmailAndPassword(firebaseAuth, email, password)
-      .then((userCredential) => {
+      createUserWithEmailAndPassword(firebaseAuth, email, password)
+      .then (async(userCredential) => {
         const user = userCredential.user;
-        updateProfile(userCredential.user,{displayName:userName})
-        sendEmailVerification(userCredential.user)
+        const defaultIconColor = "#" + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase();
+        await updateProfile(userCredential.user,{displayName:userName, photoURL:defaultIconColor})
         SecureStore.setItemAsync("user", JSON.stringify(user));
+        sendEmailVerification(userCredential.user)
+        createFireStoreUser(userCredential.user)
       })
       .catch((err) => {
         switch (err.code) {

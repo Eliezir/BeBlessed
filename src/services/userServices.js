@@ -98,3 +98,14 @@ export const getUser = async (user) => {
   const userRef = doc(db, "users", user.uid);
   await setDoc(userRef, { bio: bio }, { merge: true });
 };
+
+
+export const createFireStoreUser = async(user) =>{
+  await setDoc(doc(db,"users",user.uid),
+  {
+    bio: `oi, meu nome é ${user.displayName} :D`,
+    username: user.displayName,
+    friends: []
+  }
+  )
+}
