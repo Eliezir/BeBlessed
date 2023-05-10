@@ -45,10 +45,15 @@ export default function Profile() {
           onPress={() => navigation.navigate("ProfileEdit")}
         />
       </View>
-
+      {userPhoto.charAt(0) != "#" ?
       <ImageBackground source={{ uri: userPhoto }} style={styles.userImage}>
         <Text style={styles.userName}>{user.displayName}</Text>
       </ImageBackground>
+      : <View style={[styles.userImage]}>
+         <Text style={[styles.userIcon,{backgroundColor:userPhoto}]}>{user.displayName.charAt(0)}</Text>
+         <Text style={styles.userName}>{user.displayName}</Text>
+      </View>
+}
       {userProfile &&     
       <View style={styles.profileContainer}>
       <Text style={styles.userBio}>
@@ -56,6 +61,7 @@ export default function Profile() {
       </Text>
       </View>
       }
+     
     </SafeAreaView>
   );
 }
@@ -99,5 +105,17 @@ const styles = StyleSheet.create({
   profileContainer:{
   width:width - 50,
   marginTop:12.5
+  },
+  userIcon:{
+    fontSize:55, 
+    color:"#fff", 
+    textAlign:"center",
+    textAlignVertical:"top",
+    width:85, 
+    height:85,
+    position:"absolute",
+    bottom:45,
+    left:25,
+    borderRadius:15
   }
 });
