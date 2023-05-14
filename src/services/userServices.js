@@ -10,6 +10,8 @@ import {
   setDoc,
   where,
   query,
+  getDocs,
+  arrayUnion
 } from "firebase/firestore";
 
 export const updateUser = async (user, name, photo) => {
@@ -94,6 +96,27 @@ export const getUser = async (user) => {
   }
 };
 
+export const getUsers = async (user) => {
+  const usersRef = collection(db, "users");
+  const q = query(usersRef);
+  const usersStore = await getDocs(q);
+  const users = [];
+  usersStore.forEach((doc) => {
+    if (doc.id !== user.uid) {
+      userStore = {
+        uid: doc.id,
+        bio: doc.data().bio,
+        username: doc.data().username,
+        name: doc.data().name,
+        photoURL: doc.data().photoURL,
+      }
+      users.push(userStore);
+    }
+  });
+  return users;
+}
+
+
  export const updateBio = async (user, bio) => {
   const userRef = doc(db, "users", user.uid);
   await setDoc(userRef, { bio: bio }, { merge: true });
@@ -105,7 +128,17 @@ export const createFireStoreUser = async(user) =>{
   {
     bio: `oi, meu nome é ${user.displayName} :D`,
     username: user.displayName,
-    friends: []
+    name: user.displayName,
+    photoURL: user.photoURL,
+    posts: [],
+    friends: [],
   }
   )
+}
+
+export const addFriend = async (friend,user) => { 
+  const userRef = doc(db, "users", user.uid);
+  const friendRef = doc(db, "users", friend.uid);
+  await setDoc(userRef, { friends: arrayUnion(friend.uid) }, { merge: true });
+  await setDoc(friendRef, { friends: arrayUnion(user.uid) }, { merge: true });
 }
