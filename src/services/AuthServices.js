@@ -92,4 +92,5 @@ export const signOut = async () => {
   const firebaseAuth = getAuth();
   await SecureStore.deleteItemAsync("user");
   await firebaseAuth.signOut();
+  console.log("deslogado");
 }

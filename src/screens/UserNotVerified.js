@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React from 'react';
 import { View, Text, StyleSheet,TouchableOpacity,Dimensions, Image} from 'react-native';
 import { SendValidateEmail } from '../services/AuthServices';
 

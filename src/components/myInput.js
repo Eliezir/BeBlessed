@@ -110,13 +110,16 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     flexDirection:"row",
-    justifyContent:"center"
+    justifyContent:"center",
+    alignItems:"center"
   },
   icon:{
     width:"10%",
     height:"100%",
     justifyContent:"center",
     alignItems:"center",
+    alignSelf:"center",
 
+   
   }    
 });

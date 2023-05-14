@@ -20,6 +20,7 @@ export default function ProfileEdit(props) {
 const navigation = useNavigation();
 const firebaseAuth = getAuth();
 const user = firebaseAuth.currentUser;
+/* const user = props.user; */
 
 const [overlay, setOverlay] = useState(false);
 const [userName, setUsername] = useState(user.displayName);
