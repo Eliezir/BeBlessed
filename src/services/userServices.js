@@ -11,8 +11,10 @@ import {
   where,
   query,
   getDocs,
-  arrayUnion
+  arrayUnion,
+  arrayRemove
 } from "firebase/firestore";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export const updateUser = async (user, name, photo) => {
   var updateName = (updatePhoto = false);
@@ -93,28 +95,53 @@ export const getUser = async (user) => {
     bio: data.bio,
     friends: data.friends,
     username: data.username
+
   }
 };
+const sleep = m => new Promise(r => setTimeout(r, m))
 
-export const getUsers = async (user) => {
-  const usersRef = collection(db, "users");
-  const q = query(usersRef);
-  const usersStore = await getDocs(q);
-  const users = [];
+export const getUsers = async (user, type) => {
+  var userData = {};
+  await sleep(100)
+  while(Object.keys(userData).length < 4){
+  var userRef = doc(db, "users", user.uid);
+  var userStore = await getDoc(userRef);
+  userData = userStore.data()
+  }
+
+  let usersRef = collection(db, "users");
+  let q = query(usersRef);
+  let usersStore = await getDocs(q);
+  let users = [];
+  
+  class friendStore {
+    constructor(doc) {
+      this.uid = doc.id,
+        this.bio = doc.data().bio,
+        this.username = doc.data().username,
+        this.name = doc.data().name,
+        this.photoURL = doc.data().photoURL;
+    }
+   
+  }
   usersStore.forEach((doc) => {
-    if (doc.id !== user.uid) {
-      userStore = {
-        uid: doc.id,
-        bio: doc.data().bio,
-        username: doc.data().username,
-        name: doc.data().name,
-        photoURL: doc.data().photoURL,
-      }
-      users.push(userStore);
+    if(type == "friends" && userData.friends.includes(doc.id)){
+      friend = new friendStore(doc); users.push(friend);}
+    else if(type == "sentRequestFriends" && userData.friendsRequestsSent.includes(doc.id)){
+      friend = new friendStore(doc); users.push(friend);
+    }
+    else if(type == "requestedFriends" && userData.friendsRequestsReceived.includes(doc.id)){
+      friend = new friendStore(doc); users.push(friend);
+    }
+     if (type == "allUsers" && doc.id !== user.uid && !userData.friendsRequestsSent.includes(doc.id) && !userData.friendsRequestsReceived.includes(doc.id) && !userData.friends.includes(doc.id) ) {
+      friend = new friendStore(doc); users.push(friend);
     }
   });
   return users;
 }
+
+
+
 
 
  export const updateBio = async (user, bio) => {
@@ -132,6 +159,8 @@ export const createFireStoreUser = async(user) =>{
     photoURL: user.photoURL,
     posts: [],
     friends: [],
+    friendsRequestsSent: [],
+    friendsRequestsReceived: []
   }
   )
 }
@@ -139,6 +168,27 @@ export const createFireStoreUser = async(user) =>{
 export const addFriend = async (friend,user) => { 
   const userRef = doc(db, "users", user.uid);
   const friendRef = doc(db, "users", friend.uid);
-  await setDoc(userRef, { friends: arrayUnion(friend.uid) }, { merge: true });
-  await setDoc(friendRef, { friends: arrayUnion(user.uid) }, { merge: true });
+  await setDoc(userRef, { friendsRequestsSent: arrayUnion(friend.uid), }, { merge: true });
+  await setDoc(friendRef, { friendsRequestsReceived: arrayUnion(user.uid) }, { merge: true });
+}
+
+export const acceptFriend = async (friend,user) => {
+  const userRef = doc(db, "users", user.uid);
+  const friendRef = doc(db, "users", friend.uid);
+  await setDoc(userRef, { friendsRequestsReceived: arrayUnion(friend.uid), friendsRequestsSent: arrayRemove(friend.uid) }, { merge: true });
+  await setDoc(friendRef, { friendsRequestsSent: arrayUnion(user.uid), friendsRequestsReceived: arrayRemove(user.uid) }, { merge: true });
+}
+
+export const removeFriend = async (friend,user) => {
+  const userRef = doc(db, "users", user.uid);
+  const friendRef = doc(db, "users", friend.uid);
+  await setDoc(userRef, { friends: arrayRemove(friend.uid) }, { merge: true });
+  await setDoc(friendRef, { friends: arrayRemove(user.uid) }, { merge: true });
+}
+
+export const removeInvite = async (friend,user) => {
+  const userRef = doc(db, "users", user.uid);
+  const friendRef = doc(db, "users", friend.uid);
+  await setDoc(userRef, { friendsRequestsSent: arrayRemove(friend.uid) }, { merge: true });
+  await setDoc(friendRef, { friendsRequestsReceived: arrayRemove(user.uid) }, { merge: true });
 }

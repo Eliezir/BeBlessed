@@ -2,20 +2,23 @@ import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 
 export default function components(props) {
+    const buttonFunction = props.addFriendFunc ? props.addFriendFunc : props.removeFriendFunc
+    const user = props.user;
  return (
    <View style={styles.container}>
+ 
     
-    {props.userPhoto.charAt(0) != "#" ?
-    
-    <Image style={styles.icon} source={{uri:props.userPhoto}}/>:
-    <Text style={[styles.userIcon,{backgroundColor:props.userPhoto}]}>{props.userName.charAt(0)}</Text>
+    {user.photoURL ? user.photoURL.charAt(0) != "#" ?
+    <Image style={styles.icon} source={{uri:user.photoURL}}/>:
+    <Text style={[styles.userIcon,{backgroundColor:user.photoURL}]}>{user.username.charAt(0)}</Text>
+    : null
     }
     <View style={styles.nameContainer}>
-        <Text style={styles.name}>{props.name}</Text>
-        <Text style={styles.userName}>{props.userName}</Text>
+        <Text style={styles.name}>{user.name}</Text>
+        <Text style={styles.userName}>{user.userName}</Text>
     </View>
-    <TouchableOpacity style={styles.addButton} onPress={props.addFriendFunc}>
-        <Text style={styles.buttonText}>ADD</Text>
+    <TouchableOpacity style={ props.addFriendFunc ? styles.addButton : styles.removeButton} onPress={buttonFunction}>
+        <Text style={[styles.buttonText, props.removeFriendFunc ? styles.removeButtonText : null]}>{props.addFriendFunc ? "ADD" : "X"}</Text>
     </TouchableOpacity>
     </View>
   );
@@ -64,12 +67,22 @@ addButton:{
     padding: 5,
     paddingHorizontal: 7.5,
     borderRadius: 15,
-
+},
+removeButton:{
+   height:35,
+   width:35,   
 },
 buttonText:{
     color: "#fff",
     fontSize: 12,
     fontWeight: "bold",
+},
+removeButtonText:{
+    fontSize:20,
+    textAlign: "center",
+    textAlignVertical: "center",
+    color: "#c9c9c9",
 }
+
 
 });
