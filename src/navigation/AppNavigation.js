@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ProfileEdit from '../screens/ProfileEdit';
-import Profile from '../screens/Profile';
-import FriendList from "../screens/FriendsListScreen"
+import ProfileEdit from '../screens/Profile/ProfileEdit';
+import Profile from '../screens/Profile/Profile';
+import FriendList from "../screens/Friends/FriendsListScreen"
 
 const Stack = createNativeStackNavigator();
 
