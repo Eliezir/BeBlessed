@@ -17,6 +17,7 @@ import {
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export const updateUser = async (user, name, photo) => {
+  const userRef = doc(db, "users", user.uid);
   var updateName = (updatePhoto = false);
   if (name != user.displayName) {
     updateName = true;
@@ -54,11 +55,16 @@ export const updateUser = async (user, name, photo) => {
     updatePhoto = true;
   }
 
+if(updatePhoto){
+  await setDoc(userRef, { photoURL:url }, { merge: true });
+}
+
   if (updatePhoto && updateName)
     updateConfig = { photoURL: url, displayName: name };
   else if (updatePhoto) updateConfig = { photoURL: url };
   else updateConfig = { displayName: name };
-  await updateProfile(user, updateConfig);
+  await updateProfile(user, updateConfig)
+  
 };
 
 export const changePhoto = async (oldPhoto) => {
@@ -140,14 +146,10 @@ export const getUsers = async (user, type) => {
   return users;
 }
 
-
-
-
-
- export const updateBio = async (user, bio) => {
+export const updateFirestoreUser= async (user, username, bio) => {
   const userRef = doc(db, "users", user.uid);
-  await setDoc(userRef, { bio: bio }, { merge: true });
-};
+  await setDoc(userRef, { username: username, bio:bio }, { merge: true });
+}
 
 
 export const createFireStoreUser = async(user) =>{
@@ -175,8 +177,8 @@ export const addFriend = async (friend,user) => {
 export const acceptFriend = async (friend,user) => {
   const userRef = doc(db, "users", user.uid);
   const friendRef = doc(db, "users", friend.uid);
-  await setDoc(userRef, { friendsRequestsReceived: arrayUnion(friend.uid), friendsRequestsSent: arrayRemove(friend.uid) }, { merge: true });
-  await setDoc(friendRef, { friendsRequestsSent: arrayUnion(user.uid), friendsRequestsReceived: arrayRemove(user.uid) }, { merge: true });
+  await setDoc(friendRef, { friends: arrayUnion(user.uid), friendsRequestsSent: arrayRemove(user.uid) }, { merge: true });
+  await setDoc(userRef , { friends: arrayUnion(friend.uid), friendsRequestsReceived: arrayRemove(friend.uid) }, { merge: true });
 }
 
 export const removeFriend = async (friend,user) => {
@@ -191,4 +193,72 @@ export const removeInvite = async (friend,user) => {
   const friendRef = doc(db, "users", friend.uid);
   await setDoc(userRef, { friendsRequestsSent: arrayRemove(friend.uid) }, { merge: true });
   await setDoc(friendRef, { friendsRequestsReceived: arrayRemove(user.uid) }, { merge: true });
+}
+
+export const makePost = async (user, photo, time) => {
+  const userRef = doc(db, "users", user.uid);
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function () {
+      reject(new TypeError("Network request failed"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", photo, true);
+    xhr.send(null);
+  });
+
+  const storage = getStorage();
+
+  const imageRef = ref(storage, "Posts/" + user.uid + "/" + time);
+  var url;
+  const metadata = {
+    contentType: "image/png",
+  };
+  await uploadBytes(imageRef, blob, metadata)
+    .then(async (snapshot) => {
+      await getDownloadURL(snapshot.ref).then((downloadURL) => {
+        url = downloadURL;
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  await setDoc(userRef, { posts: arrayUnion({photo:url, time:time, }) }, { merge: true });
+}
+
+const getPosts = async (user) => {
+  const userRef = doc(db, "users", user.uid);
+  const userStore = await getDoc(userRef);
+  const data = userStore.data()
+  posts =  data.posts
+  const postsList = []
+  posts.forEach((post) => {
+    postsList.push(
+     { photo: post.photo,
+      time: post.time,
+      username: data.username,
+      photoURL: data.photoURL,
+     }
+      )
+  })
+
+  return postsList
+}
+
+export const getUserAndFriendsPosts = async (user) => {
+  var posts = await getPosts(user)
+  var friends = await getUsers(user, "friends")
+  var friendsPosts = []
+  for(var i = 0; i < friends.length; i++){
+    var friendPosts = await getPosts(friends[i])
+    friendsPosts = friendsPosts.concat(friendPosts)
+  }
+
+  const PostList = []
+  PostList.push(...posts)
+  PostList.push(...friendsPosts)
+  return PostList
 }

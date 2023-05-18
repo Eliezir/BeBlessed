@@ -8,12 +8,12 @@ import RequestedFriends from "../screens/Friends/FriendsList/RequestedFriends.js
 
 const Tab = createBottomTabNavigator();
 
-function NavegacaoCompartilhada({ user, refresh, setRefresh,reloadScreens   }) {
+function NavegacaoCompartilhada({ user, refresh, setRefresh,reloadScreens, filter   }) {
 
   return (
     <Tab.Navigator screenOptions={{ headerShown: false, showLabel: false, tabBarShowLabel: false, tabBarStyle: [styles.tabBar] }}>
       <Tab.Screen name="AddFriends"
-        children={() => <AddFriend refresh={refresh} setRefresh={setRefresh} reloadScreens={reloadScreens}  user={user} sectionTextStyle={styles.sectionText} />}
+        children={() => <AddFriend filter={filter} refresh={refresh} setRefresh={setRefresh} reloadScreens={reloadScreens}  user={user} sectionTextStyle={styles.sectionText} />}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.iconView} >
@@ -22,7 +22,7 @@ function NavegacaoCompartilhada({ user, refresh, setRefresh,reloadScreens   }) {
           )
         }} />
       <Tab.Screen name="Friends"
-        children={() => <Friends refresh={refresh} setRefresh={setRefresh} user={user} sectionTextStyle={styles.sectionText} reloadScreens={reloadScreens} />}
+        children={() => <Friends  filter={filter} refresh={refresh} setRefresh={setRefresh} user={user} sectionTextStyle={styles.sectionText} reloadScreens={reloadScreens} />}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.iconView} >
@@ -54,7 +54,7 @@ export default function FriendsNavigation(props) {
 
   return (
     <NavigationContainer independent={true}>
-      <NavegacaoCompartilhada user={user} refresh={refresh} reloadScreens={()=>{reloadScreens()}}/>
+      <NavegacaoCompartilhada filter={props.filter} user={user} refresh={refresh} reloadScreens={()=>{reloadScreens()}}/>
   
     </NavigationContainer>
   );

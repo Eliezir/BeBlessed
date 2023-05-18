@@ -8,17 +8,17 @@ export default function RequestedFriends(props) {
     const[users, setUsers] = useState([])
     const[invites, setInvites] = useState([])
     const {user, refresh, reloadScreens} = props;
-
     useEffect(()=>{
-    getUsers(user,"requestedFriends").then((userFireStore)=>{
-      setUsers(userFireStore)
-    })
-    getUsers(user,"sentRequestFriends").then((userFireStore)=>{
-        setInvites(userFireStore)
+      getUsers(user,"requestedFriends").then((userFireStore)=>{
+        setUsers(userFireStore)
       })
-  },[refresh, reloadScreens])
+      getUsers(user,"sentRequestFriends").then((userFireStore)=>{
+          setInvites(userFireStore)
+        })
+    },[refresh, reloadScreens])
 
     const  handleAcceptFriend = (friend) => {
+  
         acceptFriend(friend,user)
         props.reloadScreens()
       }

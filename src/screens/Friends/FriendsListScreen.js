@@ -19,12 +19,10 @@ import FriendsBottomTab from "../../navigation/FriendsNavigation"
 export default function FriendList(props) {
 
   const [overlay, setOverlay] = useState(false);
-
+  const [filter, setFilter] = useState("");
   const navigation = useNavigation();
   const firebaseAuth = getAuth();
   const user = firebaseAuth.currentUser;
-
-
 
 
   return (
@@ -34,21 +32,21 @@ export default function FriendList(props) {
           name="chevron-forward-outline"
           size={30}
           color="#ffff"
-          onPress={()=>navigation.navigate("Profile")}
+          onPress={()=>navigation.navigate("Feed")}
         />
       </View>
       <MyInput
           icon={"search"}
           style={styles.input}
           placeholder={"Adicione ou pesquise amigos!"}
-          /* onChangeText={setUserBio}
-          value={userBio} */
+          onChangeText={setFilter}
+          value={filter}
           overlay={(v) => setOverlay(v)}
           placeholderTextColor="#894edf"
         />
         <View style={styles.FriendList}>
 
-      <View style={styles.BottomTabs}><FriendsBottomTab user={user}/></View>
+      <View style={styles.BottomTabs}><FriendsBottomTab user={user} filter={filter} /></View>
  
 
    

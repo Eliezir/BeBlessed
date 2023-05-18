@@ -7,10 +7,18 @@ import { useEffect, useState } from 'react';
 export default function FriendList(props) {
     const[users, setUsers] = useState()
     const {user, refresh, reloadScreens} = props;
+    var filter = props.filter.toLowerCase();
+  
+  
     useEffect(()=>{
+    const userList = [];
     getUsers(user, "allUsers").then((userFireStore)=>{
-      setUsers(userFireStore)
-
+      userFireStore.forEach((user)=>{
+        if(user.name.toLowerCase().includes(filter)){
+          userList.push(user)
+        }
+      })
+      setUsers(userList)
     })
   },[refresh, reloadScreens])
 

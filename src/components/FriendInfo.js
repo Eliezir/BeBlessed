@@ -15,7 +15,7 @@ export default function components(props) {
     }
     <View style={styles.nameContainer}>
         <Text style={styles.name}>{user.name}</Text>
-        <Text style={styles.userName}>{user.userName}</Text>
+        <Text style={styles.userName}>{user.username}</Text>
     </View>
     <TouchableOpacity style={ props.addFriendFunc ? styles.addButton : styles.removeButton} onPress={buttonFunction}>
         <Text style={[styles.buttonText, props.removeFriendFunc ? styles.removeButtonText : null]}>{props.addFriendFunc ? "ADD" : "X"}</Text>

@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 const { width, height } = Dimensions.get("window");
 import { signOut } from "../../services/AuthServices";
 import { getUser } from "../../services/userServices";
+import LoginButton from "../../components/loginButton";
 
 export default function Profile(props) {
   const navigation = useNavigation();
@@ -37,7 +38,7 @@ export default function Profile(props) {
           name="chevron-back-outline"
           size={30}
           color="#ffff"
-          onPress={() => signOut()}
+          onPress={() => navigation.navigate("Feed")}
         />
         <Icon
           name="ellipsis-vertical"
@@ -62,7 +63,18 @@ export default function Profile(props) {
       </Text>
       </View>
       }
-     <Button title="Friends" onPress={()=>{navigation.navigate("FriendsList")}}/>
+    <View style={{bottom:25, position:"absolute", width:"95%", alignItems:"center"}}>
+   <LoginButton
+            text={"Sair"}
+            buttonColor={"transparent"}
+            textColor={"#ff0000"}
+            borderColor={"#ff0000"}
+            height={35}
+            marginTop={20}
+            width={"15%"}
+            function={()=> signOut()}
+        />
+    </View>
     </SafeAreaView>
   );
 }

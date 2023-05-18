@@ -12,7 +12,7 @@ import LoginButton from "../../components/loginButton";
 import Icon from "react-native-vector-icons/Ionicons";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
-import {updateUser, changePhoto, updateBio} from "../../services/userServices";
+import {updateUser, changePhoto, updateFirestoreUser} from "../../services/userServices";
 import { getUser } from "../../services/userServices";
 const {width,height} = Dimensions.get("window")
 
@@ -33,7 +33,7 @@ setUserPhoto(photo);
 }
 
 const saveUpdates = async()=>{
- await Promise.all([updateUser(user, userName, userPhoto), updateBio(user, userBio)])
+ await Promise.all([updateUser(user, userName, userPhoto), updateFirestoreUser(user,userName, userBio)])
  props.reloadUser()
 }
 useEffect(()=>{
